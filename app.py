@@ -11,7 +11,7 @@ model_file = 'motorcycle_model.pkl'
 data_file = 'BIKE_DETAILS.csv'
 
 # ==========================
-# Cek file
+# Check file
 # ==========================
 if not os.path.exists(model_file):
     st.error("Model belum dibuat. Jalankan train_model.py dulu."); st.stop()
@@ -34,22 +34,16 @@ df[numeric_cols] = df[numeric_cols].astype(float)
 # ==========================
 st.set_page_config(page_title="Prediksi Harga Motor Bekas", layout="wide")
 st.title("🏍️ Prediksi Harga Motor Bekas (Random Forest)")
-st.markdown("""
-Selamat datang! Gunakan panel input di bawah untuk memprediksi harga motor bekas berdasarkan fitur yang tersedia.
-""")
+st.markdown("Gunakan panel input untuk memprediksi harga motor bekas berdasarkan fitur yang tersedia.")
 
 # Sidebar info
 with st.sidebar:
-    st.header("ℹ️ Informasi Dataset")
+    st.header("ℹ️ Info Dataset")
     st.write(f"Jumlah data: {len(df)} motor")
     st.write(f"Rentang tahun: {int(df['year'].min())} - {int(df['year'].max())}")
-    st.write(f"Rentang harga: Rp {int(df['selling_price'].min()):,} - Rp {int(df['selling_price'].max()):,}".replace(",", "."))
-    if st.checkbox("Tampilkan dataset sample"):
-        st.dataframe(df.head(10))
+    st.write(f"Rentang harga: Rp {int(df['selling_price'].min()):,} - Rp {int(df['selling_price'].max()):,}".replace(",","."))
 
-# ==========================
-# Input user
-# ==========================
+# User Input
 st.subheader("💡 Prediksi Harga Motor")
 col1, col2 = st.columns(2)
 with col1:
@@ -61,9 +55,7 @@ with col2:
     owner = st.selectbox("Owner", df['owner'].dropna().unique())
     ex_price = st.number_input("Ex Showroom Price", 0, int(df['ex_showroom_price'].max()), int(df['ex_showroom_price'].median()))
 
-# ==========================
-# Prediksi
-# ==========================
+# Predict
 if st.button("Prediksi Harga"):
     input_df = pd.DataFrame([{
         'name': name, 'year': year, 'km_driven': km,
@@ -73,9 +65,7 @@ if st.button("Prediksi Harga"):
     st.metric(label="💰 Estimasi Harga Motor Bekas", value=f"Rp {int(pred):,}".replace(",", "."))
 
     st.markdown("---")
-    st.subheader("📊 Visualisasi Harga Motor dari Dataset")
-    
-    # Histogram harga
+    st.subheader("📊 Visualisasi Harga Motor")
     fig, ax = plt.subplots(figsize=(6,4))
     ax.hist(df['selling_price'], bins=20, color='#4CAF50', edgecolor='black')
     ax.axvline(pred, color='red', linestyle='--', label='Prediksi Anda')
