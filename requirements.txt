@@ -1,13 +1,4 @@
-# Streamlit untuk menjalankan aplikasi
 streamlit>=1.26.0,<2.0
-
-# Data manipulation
 pandas>=2.0.3,<3.0
 numpy>=1.25.0,<2.0
-
-# Machine learning model persistence
 joblib>=1.3.0,<2.0
-
-# Optional: visualisasi jika digunakan
-matplotlib>=3.7.0,<4.0
-seaborn>=0.12.0,<1.0
